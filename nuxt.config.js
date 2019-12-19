@@ -17,6 +17,13 @@ export default {
   },
 
   /*
+  ** Router
+  */
+  router: {
+    base: process.env.NODE_ENV === 'production' ? '/projects/nuxt-models/' : '/'
+  },
+
+  /*
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },

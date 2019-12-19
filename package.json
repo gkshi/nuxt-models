@@ -10,7 +10,7 @@
     "dev": "nuxt",
     "build": "nuxt build --modern",
     "start": "nuxt start --modern",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate --modern"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.9.0",
