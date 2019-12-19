@@ -1,0 +1,73 @@
+$tab-color: transparent;
+$tab-color-hover: #f1f1f1;
+$tab-color-active: #f1f1f1;
+
+$indicator-height: 4px;
+$indicator-bg: #f1f1f1;
+$indicator-color: $color-primary;
+$indicator-transition: all .3s ease;
+
+.tabs-component {
+  position: relative;
+  width: 100%;
+  .tabs {
+    margin-bottom: 4px;
+
+    &.disabled {
+      .tab {
+        opacity: .5;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .tab {
+    padding: 4px;
+    background: $tab-color;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background: $tab-color-hover;
+    }
+
+    &.active {
+      background: $tab-color-active;
+      font-weight: $font-weight-bold;
+    }
+
+    &.disabled {
+      opacity: .5;
+      pointer-events: none;
+    }
+  }
+
+  .line {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 10px;
+    background: $indicator-bg;
+  }
+
+  .indicator {
+    position: relative;
+    display: block;
+    width: 0;
+    height: $indicator-height;
+    background: $indicator-color;
+    transition: $indicator-transition;
+  }
+
+  .content {
+    & > * {
+      display: none;
+
+      &.tab-content-active {
+        display: block;
+      }
+    }
+  }
+}

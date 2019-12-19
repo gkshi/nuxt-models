@@ -1,0 +1,7 @@
+{
+  "name": "nuxt-models",
+  "version": "0.0.1",
+  "description": "JS model controller for Nuxt.js project",
+  "author": "George Shinkarev <gkshi@ya.ru>",
+  "license": "MIT"
+}
