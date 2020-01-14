@@ -1,10 +1,13 @@
 # nuxt-models
 
-> JS model controller for your Nuxt.js project
+> JS model controller for your Nuxt.js project.
 
-Docs: [https://gkshi.github.io/projects/nuxt-models/](https://gkshi.github.io/projects/nuxt-models/)
+Plugin use cases:
+* Keep common data standart.
+* Complement incomplete data getting by API.
+* Control data validity.
 
-
+&nbsp;
 
 ### Installation
 
