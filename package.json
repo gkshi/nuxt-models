@@ -1,6 +1,6 @@
 {
   "name": "nuxt-models",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "JS model controller for Nuxt.js project",
   "author": "George Shinkarev <gkshi@ya.ru>",
   "files": [
@@ -8,5 +8,12 @@
   ],
   "main": "src/index.js",
   "license": "MIT",
-  "repository": "https://github.com/gkshi/nuxt-models"
+  "repository": "https://github.com/gkshi/nuxt-models",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
 }

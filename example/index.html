@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page</title>
+  <style>
+    .flex {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+<div>
+  <h1>Nuxt.js model controller</h1>
+
+  <div class="flex">
+    <div>
+      <div>Describe a Model</div>
+      <pre>
+        <code>
+// User model
+export default {
+  name: {
+    type: String,
+    default: 'Nameless person',
+    required: true,
+    validation: v => v.length > 1,
+    hidden: false
+  },
+  age: {
+    type: Number,
+    default: 18,
+    required: true,
+    validation: v => +v > 0,
+    hidden: false
+  }
+}
+        </code>
+      </pre>
+    </div>
+    <div>
+      <div>Create an Entity by model</div>
+      <div>1. Open console</div>
+      <div>2. const Person = ModelController.create('user', { name: 'Jack' })</div>
+    </div>
+  </div>
+
+  <div></div>
+</div>
+
+<script src="../dist/example.js"></script>
+</body>
+</html>

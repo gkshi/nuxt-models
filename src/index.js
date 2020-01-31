@@ -1,8 +1,8 @@
 import { _require, _new } from './helpers'
 
-const LOGS = false // process.env.NODE_ENV !== 'production'
+const LOGS = process.env.NODE_ENV !== 'production'
 
-const ModelController = {
+export const ModelController = {
   /**
    * Get model
    * @param modelName
@@ -23,9 +23,9 @@ const ModelController = {
    */
   create: (name, data = {}) => {
     if (LOGS) {
-      data
-        ? console.log(`CREATE model "${name}" with initial data`, data)
-        : console.log(`CREATE model "${name}" without initial data.`)
+      Object.keys(data).length
+        ? console.log(`Creating an Entity by "${name}" model with initial data`, data)
+        : console.log(`Creating an Entity by "${name}" model without initial data.`)
     }
 
     const model = typeof name === 'string' ? _require(name) : name
@@ -36,8 +36,7 @@ const ModelController = {
       // Creating new entity by model
       entity = _new(modelName, model, data)
     } catch (e) {
-      console.warn('Unable to create new entity by invalid model.')
-      console.warn(e)
+      throw new Error(e)
     }
 
     return entity

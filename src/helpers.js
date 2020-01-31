@@ -1,4 +1,4 @@
-const LOGS = false // process.env.NODE_ENV !== 'production'
+const LOGS = process.env.NODE_ENV !== 'production'
 
 /**
  * Model class
@@ -28,9 +28,9 @@ class Model {
  * @private
  */
 export function _require (filename) {
-  let model = {}
+  let model = null
   try {
-    model = require('@/models/' + filename + '.js').default
+    model = require('../models/' + filename + '.js').default
   } catch (e) {
     console.warn(`Cannot find model "${filename}" in /modules directory.`)
   }
@@ -46,6 +46,9 @@ export function _require (filename) {
  * @private
  */
 export function _new (name, model, data = {}) {
+  if (!model) {
+    throw new Error('Unable to create new entity without model.')
+  }
   const Entity = new Model()
 
   // Set initial entity values
@@ -97,6 +100,9 @@ function _setValues (entity, model, data = {}) {
     if (Object.keys(data).includes(key)) {
       // Get value from initial data
       value = data[key]
+    } else if (entity[key]) {
+      // Leave existing entity value
+      value = entity[key]
     } else if (Object.keys(model[key]).includes('default')) {
       // Get value from default option
       value = typeof model[key].default === 'function' ? model[key].default() : model[key].default
