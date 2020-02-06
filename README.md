@@ -107,6 +107,39 @@ If all validation rules of options return true, Entity.validation returns true.
 &nbsp;
 
 
+### Nested models
+
+You may create entities with nested entities.
+
+```javascript
+import Department from '@/models/department'
+
+// Person model
+export default {
+  name: String,
+  age: Number,
+  department: {
+    model: Department,
+    value: 'title',
+    hidden: false
+  }
+}
+```
+
+`Option.model`  
+Option with nested model.
+
+`Option.value`  
+Option name of nested model. Its value will be available as Entity.department.  
+Cannot be combined with "hidden" option.
+
+`Option.hidden`  
+True/false state. If it's true, Entity.department will be added as hidden property.  
+Cannot be combined with "value" option.
+
+&nbsp;  
+
+
 ### Plugin methods
 
 `this.$models.create`  
