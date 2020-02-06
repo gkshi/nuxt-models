@@ -51,6 +51,9 @@ export function _new (name, model, data = {}) {
   }
   const Entity = new Model()
 
+  // Build nested models
+  _buildNestedModels(Entity, model, data)
+
   // Set initial entity values
   _setValues(Entity, model, data)
 
@@ -90,6 +93,10 @@ export function _new (name, model, data = {}) {
 function _setValues (entity, model, data = {}) {
   Object.keys(model).forEach(key => {
     let value
+
+    if (model[key].model) {
+      return
+    }
 
     if (!model[key].type) {
       model[key] = {
@@ -141,6 +148,47 @@ function _setValues (entity, model, data = {}) {
       })
     } else {
       entity[key] = value
+    }
+  })
+}
+
+function _buildNestedModels (entity, model, data = {}) {
+  Object.keys(model).forEach(key => {
+    if (model[key].model) {
+      if (LOGS) {
+        console.log('Building a nested model', model)
+      }
+
+      if (model[key].hidden === true) {
+        // Creating hidden nested entity
+        Object.defineProperty(entity, key, {
+          configurable: true,
+          enumerable: false,
+          writable: true,
+          value: _new(key, model[key].model, data[key])
+        })
+      } else if (model[key].value) {
+        // Creating getter/setter for nested entity
+        Object.defineProperty(entity, `_${key}`, {
+          configurable: true,
+          enumerable: false,
+          writable: true,
+          value: _new(key, model[key].model, data[key])
+        })
+        Object.defineProperty(entity, key, {
+          configurable: true,
+          enumerable: true,
+          get () {
+            return this[`_${key}`][model[key].value]
+          },
+          set (value) {
+            this[`_${key}`] = value
+          }
+        })
+      } else {
+        // Creating simple visible nested entity
+        entity[key] = _new(key, model[key].model, data[key])
+      }
     }
   })
 }
