@@ -1,5 +1,8 @@
+import Department from './department'
+
 // User model
 export default {
+  id: String,
   name: {
     type: String,
     default: 'Nameless person',
@@ -12,6 +15,11 @@ export default {
     default: 18,
     required: true,
     validation: v => +v > 0,
+    hidden: false
+  },
+  department: {
+    model: Department,
+    value: 'title',
     hidden: false
   }
 }

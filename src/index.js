@@ -48,10 +48,6 @@ export const ModelController = {
    * @returns {{}}
    */
   clone: (model = {}) => {
-    if (!model.modelName) {
-      console.warn('Unable to clone model without name.')
-      return {}
-    }
     return ModelController.create(model.modelName, model)
   }
 }
