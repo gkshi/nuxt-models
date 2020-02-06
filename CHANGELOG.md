@@ -1,8 +1,13 @@
 Changelog
 =========
 
+### 0.0.8 (2020-02-06)
+* Validation updated. Also it checks nested models.
+* Entity.errors property added (an array with not valid options).
+
+
 ### 0.0.7 (2020-02-06)
-* Nested models/entities getters/setters updated.
+* Nested model getters/setters updated.
 
 
 ### 0.0.6 (2020-02-06)

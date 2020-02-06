@@ -73,10 +73,17 @@ export function _new (name, model, data = {}) {
     value: name
   })
 
+  // Array with errors
+  Object.defineProperty(Entity, 'errors', {
+    get () {
+      return _checkValidation(Entity)
+    }
+  })
+
   // Validation status
   Object.defineProperty(Entity, 'validation', {
     get () {
-      return _checkValidation(Entity)
+      return !this.errors.length
     }
   })
 
@@ -223,19 +230,24 @@ function _buildNestedModels (entity, model, data = {}) {
 /**
  * Check entity validation helper
  * @param entity
- * @returns {boolean}
+ * @returns {array}
  * @private
  */
 export function _checkValidation (entity) {
-  let validated = true
-  Object.keys(entity).every(key => {
+  const errors = []
+  Object.keys(entity).forEach(key => {
+    // Check required options
     if (entity.model[key].required && !entity[key]) {
-      validated = false
-      return false
+      errors.push(key)
+      return
     }
-    return true
+    // Check nested models validation
+    if (entity[`_${key}`] instanceof Model && Object.keys(entity).includes(key)) {
+      errors.push(key)
+      return
+    }
   })
-  return validated
+  return errors
 }
 
 /**
