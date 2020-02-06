@@ -159,16 +159,8 @@ function _buildNestedModels (entity, model, data = {}) {
         console.log('Building a nested model', model)
       }
 
-      if (model[key].hidden === true) {
-        // Creating hidden nested entity
-        Object.defineProperty(entity, key, {
-          configurable: true,
-          enumerable: false,
-          writable: true,
-          value: _new(key, model[key].model, data[key])
-        })
-      } else if (model[key].value) {
-        // Creating getter/setter for nested entity
+      if (model[key].value) {
+        // Creating getter/setter with one visible option
         Object.defineProperty(entity, `_${key}`, {
           configurable: true,
           enumerable: false,
@@ -182,12 +174,47 @@ function _buildNestedModels (entity, model, data = {}) {
             return this[`_${key}`][model[key].value]
           },
           set (value) {
-            this[`_${key}`] = value
+            if (typeof value === 'object') {
+              if (LOGS) {
+                console.log(`Updating nested entity "${this[`_${key}`].modelName}".`)
+              }
+              Object.keys(value).forEach(k => {
+                console.log('this[`_${key}`][k]', this[`_${key}`][k])
+                this[`_${key}`][k] = value[k]
+              })
+            } else {
+              if (LOGS) {
+                console.log(`Updating only "${model[key].value}" option of nested entity.`)
+              }
+              this[`_${key}`][model[key].value] = value
+            }
           }
         })
       } else {
-        // Creating simple visible nested entity
-        entity[key] = _new(key, model[key].model, data[key])
+        // Creating simple nested entity
+        // with getter/setter
+        Object.defineProperty(entity, `_${key}`, {
+          configurable: true,
+          enumerable: false,
+          writable: true,
+          value: _new(key, model[key].model, data[key])
+        })
+        Object.defineProperty(entity, key, {
+          configurable: true,
+          enumerable: model[key].hidden !== true,
+          get () {
+            return this[`_${key}`]
+          },
+          set (value) {
+            if (typeof value === 'object') {
+              Object.keys(value).forEach(k => {
+                this[`_${key}`][k] = value[k]
+              })
+            } else {
+              console.warn('Nested entity cannot be updated by not an object.')
+            }
+          }
+        })
       }
     }
   })

@@ -130,7 +130,7 @@ export default {
 Option with nested model.
 
 `Option.value`  
-Option name of nested model. Its value will be available as Entity.department.  
+Option name of nested model. Entity.department will return its value.  
 Cannot be combined with "hidden" option.
 
 `Option.hidden`  
