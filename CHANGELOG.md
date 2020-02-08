@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.0.9 (2020-02-08)
+* Import model helper updated.
+
+
 ### 0.0.8 (2020-02-06)
 * Validation updated. Also it checks nested models.
 * Entity.errors property added (an array with not valid options).

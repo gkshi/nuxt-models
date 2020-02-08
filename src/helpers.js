@@ -30,7 +30,7 @@ class Model {
 export function _require (filename) {
   let model = null
   try {
-    model = require('../models/' + filename + '.js').default
+    model = require('@/models/' + filename + '.js').default
   } catch (e) {
     console.warn(`Cannot find model "${filename}" in /modules directory.`)
   }
