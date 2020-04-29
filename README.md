@@ -51,7 +51,7 @@ export default {
 2. Create an entity in Vue-component
 
 ```javascript
-const Person = this.$models.get('person', {
+const Person = this.$models.create('person', {
   name: 'Jack',
   age: 25
 })
