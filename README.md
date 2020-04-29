@@ -146,7 +146,7 @@ Cannot be combined with "value" option.
 Creates an entity by described model
 
 ```javascript
-const Person = this.$models.get('person', {
+const Person = this.$models.create('person', {
   name: 'Jack',
   age: 25
 })
