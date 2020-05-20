@@ -1,19 +1,19 @@
 import { _require, _new } from './helpers'
 
-const LOGS = process.env.NODE_ENV !== 'production'
+const LOGS = false // process.env.NODE_ENV !== 'production'
 
-export const ModelController = {
+export class ModelController {
   /**
    * Get model
    * @param modelName
    * @returns {object}
    */
-  get: modelName => {
+  get (modelName) {
     if (LOGS) {
       console.log('GET model', modelName)
     }
     return _require(modelName)
-  },
+  }
 
   /**
    * Create new model
@@ -21,7 +21,7 @@ export const ModelController = {
    * @param data {object}
    * @returns {object}
    */
-  create: (name, data = {}) => {
+  create (name, data = {}) {
     if (LOGS) {
       Object.keys(data).length
         ? console.log(`Creating an Entity by "${name}" model with initial data`, data)
@@ -40,18 +40,18 @@ export const ModelController = {
     }
 
     return entity
-  },
+  }
 
   /**
    * Clone existing model
    * @param model
    * @returns {{}}
    */
-  clone: (model = {}) => {
+  clone (model = {}) {
     return ModelController.create(model.modelName, model)
   }
 }
 
-export default ({ app }, inject) => {
-  inject('models', ModelController)
+export default (context, inject) => {
+  inject('models', new ModelController())
 }

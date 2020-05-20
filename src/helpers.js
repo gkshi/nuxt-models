@@ -1,4 +1,5 @@
-const LOGS = process.env.NODE_ENV !== 'production'
+//
+const LOGS = 'false'
 
 /**
  * Model class
@@ -16,7 +17,8 @@ class Model {
     if (LOGS) {
       console.log('Reset model values.')
     }
-    _setValues(this, this.model)
+    const clean = _new(this.modelName, this.model)
+    _setValues(this, this.model, clean)
     return this
   }
 }
@@ -186,7 +188,6 @@ function _buildNestedModels (entity, model, data = {}) {
                 console.log(`Updating nested entity "${this[`_${key}`].modelName}".`)
               }
               Object.keys(value).forEach(k => {
-                console.log('this[`_${key}`][k]', this[`_${key}`][k])
                 this[`_${key}`][k] = value[k]
               })
             } else {
@@ -244,7 +245,6 @@ export function _checkValidation (entity) {
     // Check nested models validation
     if (entity[`_${key}`] instanceof Model && Object.keys(entity).includes(key)) {
       errors.push(key)
-      return
     }
   })
   return errors
