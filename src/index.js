@@ -1,3 +1,4 @@
+/* eslint no-console: 'off' */
 import { _require, _new } from './helpers'
 
 const LOGS = false // process.env.NODE_ENV !== 'production'

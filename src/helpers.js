@@ -1,5 +1,5 @@
-//
-const LOGS = 'false'
+/* eslint no-console: 'off' */
+const LOGS = false
 
 /**
  * Model class
@@ -103,10 +103,13 @@ function _setValues (entity, model, data = {}) {
   Object.keys(model).forEach(key => {
     let value
 
+    // Если свойство является другой моделью - пропускаем,
+    // будет обрабатывать метод _buildNestedModels
     if (model[key].model) {
       return
     }
 
+    // Разворачиваем сокращенное написание в модели
     if (!model[key].type) {
       model[key] = {
         type: model[key]
@@ -127,38 +130,57 @@ function _setValues (entity, model, data = {}) {
       value = _generateValueByType(model[key])
     }
 
-    if (Object.keys(model[key]).includes('validation')) {
-      // Validate value
-      if (!model[key].validation(value)) {
-        console.warn(`Unable to set "${value}" value. Check model validation.`)
-        // Generate empty value by type
-        value = entity[key] || _generateValueByType(model[key])
-      }
-      // Create getter/setter for option
-      Object.defineProperty(entity, `_${key}`, {
-        configurable: true,
-        enumerable: false,
-        writable: true,
-        value
-      })
-      Object.defineProperty(entity, key, {
-        configurable: true,
-        enumerable: true,
-        get () {
-          return this[`_${key}`]
-        },
-        set (value) {
-          if (!this.model[key].validation(value)) {
-            console.warn(`Unable to set "${value}" value. Check model validation.`)
-            return this[key]
-          }
-          this[`_${key}`] = value
-        }
-      })
-    } else {
-      entity[key] = value
-    }
+    _setOption(entity, model, key, value)
   })
+}
+
+function _setOption (entity, model, key, value) {
+  if (Object.keys(model[key]).includes('validation')) {
+    // Validate value
+    if (!model[key].validation(value)) {
+      // console.warn(`Unable to set "${value}" value. Check model validation.`)
+      // Generate empty value by type
+      value = entity[key] || _generateValueByType(model[key])
+    }
+    // Create getter/setter for option
+    Object.defineProperty(entity, `_${key}`, {
+      configurable: true,
+      enumerable: false,
+      writable: true,
+      value
+    })
+    Object.defineProperty(entity, key, {
+      configurable: true,
+      enumerable: model[key].hidden !== true,
+      get () {
+        return this[`_${key}`]
+      },
+      set (value) {
+        if (!this.model[key].validation(value)) {
+          console.warn(`Unable to set "${value}" value. Check model validation.`)
+          return this[key]
+        }
+        this[`_${key}`] = value
+      }
+    })
+  } else {
+    model[key].hidden
+      ? _setHiddenOption(entity, model, key, value)
+      : entity[key] = value
+  }
+}
+
+function _setHiddenOption (entity, model, key, value, options = {}) {
+  if (Object.keys(model[key]).includes('validation')) {
+    //
+  } else {
+    Object.defineProperty(entity, key, {
+      configurable: true,
+      enumerable: false,
+      writable: true,
+      value
+    })
+  }
 }
 
 function _buildNestedModels (entity, model, data = {}) {

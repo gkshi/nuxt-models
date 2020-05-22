@@ -1,6 +1,15 @@
 Changelog
 =========
 
+### 0.0.11 (2020-05-22)
+* Creation of hidden options fixed.
+
+
+### 0.0.10 (2020-05-21)
+* Entity.update method fixed.
+* Entity.reset method added.
+
+
 ### 0.0.9 (2020-02-08)
 * Import model helper updated.
 

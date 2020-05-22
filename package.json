@@ -1,7 +1,7 @@
 {
   "name": "nuxt-models",
-  "version": "0.0.10",
-  "description": "JS model controller for Nuxt.js project",
+  "version": "0.0.11",
+  "description": "JS entity/model controller for your Nuxt.js project",
   "author": "George Shinkarev <gkshi@ya.ru>",
   "files": [
     "src"
